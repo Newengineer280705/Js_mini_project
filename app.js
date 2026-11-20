@@ -9,15 +9,27 @@ let h2 = document.querySelector("h2");
 let body = document.querySelector("body");
 
 /////////STEP:-1///////////////
-document.addEventListener("keydown",function(){
-    // console.log("Key pressed:", event.key);
-    if(started == false){
-        console.log("Game is started");
-        started = true;
+// document.addEventListener("keydown",function(){
+//     // console.log("Key pressed:", event.key);
+//     if(started == false){
+//         console.log("Game is started");
+//         started = true;
 
+//         levelUp();
+//     }  
+// });
+function startGame(event) {
+    if (started == false && !event.target.closest(".btn")) {
+        started = true;
+        console.log("Game is started");
         levelUp();
-    }  
-});
+    }
+}
+
+document.addEventListener("keydown", startGame);
+document.addEventListener("click", startGame);
+
+
 //////////STEP:-2///////////////////////
 function gameflash(btn){
     btn.classList.add("flash");
@@ -61,7 +73,7 @@ function checkAns(idx){
         }
     }
     else{
-       h2.innerHTML = `Game Over! Your Score was <b>${level}</b><br>Press any key to start.`;
+       h2.innerHTML = `Game Over! Your Score was <b>${level}</b><br>Tap to restart.`;
        body.style.backgroundColor = "red";
        setTimeout(function(){
         body.style.backgroundColor = "white";
@@ -71,16 +83,30 @@ function checkAns(idx){
 }
 
 ////////STEP:-3////////////
-function btnPress(){
-    // console.log(this);
+// function btnPress(){
+//     // console.log(this);
+//     let btn = this;
+//     userFlash(btn);
+
+//     userColor = btn.getAttribute("id");
+//     userSeq.push(userColor);
+
+//     checkAns(userSeq.length-1);
+// }
+////////////////////////////////////
+function btnPress() {
+
+    if (!started) return;
+
     let btn = this;
     userFlash(btn);
 
-    userColor = btn.getAttribute("id");
+    let userColor = btn.getAttribute("id");
     userSeq.push(userColor);
 
     checkAns(userSeq.length-1);
 }
+
 
 //////////STEP:-4///////////////////////
 let allBtns = document.querySelectorAll(".btn");
